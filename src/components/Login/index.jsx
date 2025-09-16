@@ -70,7 +70,6 @@ const LoginForm = () => {
       );
 
       const data = await res.json();
-      console.log(data);
 
       if (data.message === "Login successful" && data.token !== "") {
         setUserLogin(true);
@@ -78,7 +77,7 @@ const LoginForm = () => {
         setEmployeeName(data.name);
         setEmployeeRole(data.designation);
         setLoginStatus("");
-        // window.location.replace("/");
+        window.location.replace("/");
       }
     } catch (error) {
       console.error("Login error:", error);
