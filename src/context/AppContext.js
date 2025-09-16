@@ -6,31 +6,7 @@ const ContextProvider = ({ children }) => {
   const [isUserLogin, setUserLogin] = useState(true);
   const [employeeMailId, setEmployeeMailId] = useState("");
   const [employeeName, setEmployeeName] = useState("IBIX Employee");
-
-  useEffect(() => {
-    switch (employeeMailId) {
-      case "kareem@ibix.in":
-        setEmployeeName("Abdul Kareem");
-        break;
-      case "shaikjelani@ibix.in":
-        setEmployeeName("Shaik Jelani Basha");
-        break;
-      case "shaikfariyad@ibix.in":
-        setEmployeeName("Shaik Fariyad");
-        break;
-      case "rajkumar@ibix.in":
-        setEmployeeName("Raj Kumar");
-        break;
-      case "shaiksonu@ibix.in":
-        setEmployeeName("Shaik Sonu");
-        break;
-      case "anushka@ibix.in":
-        setEmployeeName("Anushka");
-        break;
-      default:
-        setEmployeeName("IBIX Warrior");
-    }
-  }, [employeeMailId]);
+  const [employeeRole, setEmployeeRole] = useState("IBIX Employee");
 
   // Check login status once when app starts
   useEffect(() => {
@@ -65,6 +41,9 @@ const ContextProvider = ({ children }) => {
         employeeMailId,
         setEmployeeMailId,
         employeeName,
+        setEmployeeName,
+        employeeRole,
+        setEmployeeRole,
       }}
     >
       {children}

@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import "./index.css";
 import { AppContext } from "../../context/AppContext";
 
 const LoginForm = () => {
-  const { setUserLogin, setEmployeeMailId } = useContext(AppContext);
+  const { setUserLogin, setEmployeeMailId, setEmployeeName, setEmployeeRole } =
+    useContext(AppContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,7 +14,6 @@ const LoginForm = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -57,26 +57,28 @@ const LoginForm = () => {
 
     // Simulate API call
     try {
-      const users = {
-        "kareem@ibix.in": "kareem161412@",
-        "shaikjelani@ibix.in": "123456789",
-        "rajkumar@ibix.in": "123456789", // no password
-        "shaiksonu@ibix.in": "123456789",
-        "anushka@ibix.in": "123456789",
-        "shaikfariyad@ibix.in": "123456789",
-      };
+      const res = await fetch(
+        "https://ibix-lms-server.onrender.com/ibix-api/employees/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
 
-      if (
-        users[formData.email] !== undefined &&
-        users[formData.email] === formData.password
-      ) {
+      const data = await res.json();
+      console.log(data);
+
+      if (data.message === "Login successful" && data.token !== "") {
         setUserLogin(true);
-        setEmployeeMailId(formData.email);
+        setEmployeeMailId(data.email);
+        setEmployeeName(data.name);
+        setEmployeeRole(data.designation);
         setLoginStatus("");
-        window.location.replace("/");
-      } else {
-        setLoginStatus("Entered email and password invalid! Try again.");
-        setUserLogin(false);
+        // window.location.replace("/");
       }
     } catch (error) {
       console.error("Login error:", error);

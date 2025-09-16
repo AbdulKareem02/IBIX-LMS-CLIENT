@@ -4,6 +4,17 @@ import { Link } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 import ClockInOut from "../ClockInOut";
 
+// async function login() {
+//   const res = await fetch("http://localhost:5000/api/employees/login", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ email: "hr@example.com", password: "hr123" }),
+//   });
+
+//   const data = await res.json();
+//   console.log(data);
+// }
+
 const cardData = [
   {
     id: 5,
