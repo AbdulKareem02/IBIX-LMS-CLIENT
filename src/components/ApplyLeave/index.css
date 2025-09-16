@@ -1,0 +1,218 @@
+/* LeaveRequestForm.css - Modular CSS with BEM methodology */
+
+/* Variables for consistent theming */
+:root {
+  --primary-color: #3498db;
+  --primary-dark: #2980b9;
+  --secondary-color: #2ecc71;
+  --secondary-dark: #27ae60;
+  --danger-color: #e74c3c;
+  --text-color: #333;
+  --text-light: #777;
+  --background-color: #f9f9f9;
+  --border-color: #ddd;
+  --border-radius: 6px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+/* Base styles */
+.leave-request {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* Layout styles */
+.leave-request__container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+}
+
+/* Module styles */
+.leave-request__title {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.leave-request__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.leave-request__form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.leave-request__form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.leave-request__label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.leave-request__input,
+.leave-request__select,
+.leave-request__textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.leave-request__input:focus,
+.leave-request__select:focus,
+.leave-request__textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.leave-request__input--error,
+.leave-request__textarea--error {
+  border-color: var(--danger-color);
+}
+
+.leave-request__input--error:focus,
+.leave-request__textarea--error:focus {
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+.leave-request__input--readonly {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.leave-request__textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.leave-request__error {
+  color: var(--danger-color);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.leave-request__form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.leave-request__button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.leave-request__button--submit {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.leave-request__button--submit:hover {
+  background-color: var(--primary-dark);
+}
+
+.leave-request__button--reset {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.leave-request__button--reset:hover {
+  background-color: #7f8c8d;
+}
+
+/* State styles */
+.leave-request__input:disabled,
+.leave-request__select:disabled,
+.leave-request__textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .leave-request {
+    padding: 1rem;
+  }
+
+  .leave-request__container {
+    padding: 1.5rem;
+  }
+
+  .leave-request__form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .leave-request__form-actions {
+    flex-direction: column;
+  }
+
+  .leave-request__button {
+    width: 100%;
+  }
+}
+
+/* Animation for form elements */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.leave-request__form-group {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.leave-request__form-group:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.leave-request__form-group:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.leave-request__form-group:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.leave-request__form-group:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.leave-request__form-group:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.leave-request__form-group:nth-child(6) {
+  animation-delay: 0.6s;
+}
+.leave-request__form-group:nth-child(7) {
+  animation-delay: 0.7s;
+}
