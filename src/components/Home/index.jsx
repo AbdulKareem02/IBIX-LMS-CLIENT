@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Layout, Menu } from "antd";
 import {
   UserOutlined,
   PhoneOutlined,
   CalendarOutlined,
+  SettingOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
 import "./index.css";
@@ -11,17 +12,17 @@ import Calls from "../pages/Calls";
 import Dashboard from "../Dashboard";
 import HRDashboard from "../pages/HR";
 import HolidayCalendar from "../HolidayCalendar";
+import { AppContext } from "../../context/AppContext";
+import Profile from "../EmployeeProfile";
 
 const { Sider, Content } = Layout;
 
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const { activeTab, setActiveTab } = useContext(AppContext);
 
   // ✅ Load active tab from localStorage (default: "home")
-  const [activeTab, setActiveTab] = useState(
-    localStorage.getItem("activeTab") || "home"
-  );
 
   // ✅ Save tab to localStorage whenever it changes
   useEffect(() => {
@@ -46,6 +47,8 @@ const Home = () => {
         return <Calls />;
       case "calendar":
         return <HolidayCalendar />;
+      case "profile":
+        return <Profile />;
       default:
         return <h2>Welcome</h2>;
     }
@@ -82,6 +85,11 @@ const Home = () => {
                 icon: <CalendarOutlined />,
                 label: "Calendar",
               },
+              {
+                key: "profile",
+                icon: <SettingOutlined />,
+                label: "My Profile",
+              },
             ]}
           />
         </Sider>
@@ -91,10 +99,10 @@ const Home = () => {
       <Layout style={{ marginLeft: !isMobile ? (collapsed ? 60 : 200) : 0 }}>
         <Content
           style={{
-            margin: "24px 16px",
-            padding: 24,
             background: "#fff",
             minHeight: "calc(100vh - 60px)",
+            overflow: "hidden",
+            padding: "25px",
           }}
         >
           {renderContent()}
@@ -131,6 +139,13 @@ const Home = () => {
           >
             <CalendarOutlined />
             <span>Calendar</span>
+          </div>
+          <div
+            className={`nav-item ${activeTab === "profile" ? "active" : ""}`}
+            onClick={() => setActiveTab("profile")}
+          >
+            <SettingOutlined />
+            <span>My Profile</span>
           </div>
         </div>
       )}

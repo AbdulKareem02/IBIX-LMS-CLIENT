@@ -70,19 +70,22 @@ const HRDashboard = () => {
         Access all your workplace tools in one place
       </p>
 
-      <div className="cards-container">
-        {cardData.map((card) => (
-          <Link to={card.link} className="card-link">
-            <div
-              key={card.id}
-              className="dashboard-card"
-              style={{ background: card.gradient }}
-            >
-              <div className="card-icon">{card.icon}</div>
-              <h3 className="card-title">{card.title}</h3>
-            </div>{" "}
-          </Link>
-        ))}
+      <div className="container d-flex justify-content-center">
+        <div className="cards-container row">
+          {cardData.map((card) => (
+            <div className="col-6 col-md-4 col-lg-3">
+              <Link key={card.id} to={card.link} className="card-link ">
+                <div
+                  className="dashboard-card mb-4"
+                  style={{ background: card.gradient }}
+                >
+                  <div className="card-icon">{card.icon}</div>
+                  <h3 className="card-title">{card.title}</h3>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

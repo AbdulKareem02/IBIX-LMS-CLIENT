@@ -118,7 +118,6 @@ const LeaveRequestForm = () => {
 
         setErrors({});
         alert("Leave request submitted successfully!");
-        console.log("Form submitted:", formData);
       } catch (err) {
         console.error("❌ Submission failed", err);
       }

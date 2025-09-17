@@ -51,10 +51,9 @@ const Calls = () => {
   });
 
   const getRemarks = async (studentId) => {
-    console.log("remarkStudent", studentId);
     try {
       const response = await fetch(
-        "https://ibix-lms-server.onrender.com/ibix-api/get-remarks",
+        `${process.env.REACT_APP_BASE_URL}/get-remarks`,
         {
           method: "POST",
           headers: {
@@ -67,7 +66,7 @@ const Calls = () => {
       if (!response.ok) {
         throw new Error(result.message || "Failed to fetch remarks");
       }
-      console.log("Remarks:", result.data); // 👈 use in state instead
+
       setRemarksData(result.data);
     } catch (error) {
       console.error("Error fetching remarks:", error);
@@ -76,8 +75,8 @@ const Calls = () => {
   };
 
   useEffect(() => {
-    // include employeeMailId in deps so it refetches when it changes
-    fetch("https://ibix-lms-server.onrender.com/ibix-api/get-students", {
+    // include employeeMailId in deps so it re-fetches when it changes
+    fetch(`${process.env.REACT_APP_BASE_URL}/get-students`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ employee: employeeMailId }),
@@ -109,7 +108,6 @@ const Calls = () => {
   // Confirm status change
   const handleStatusChangeConfirm = async (props) => {
     const { studentId, type, remark } = props;
-    console.log("fck:", props);
 
     if (!studentId) return;
 
@@ -125,7 +123,7 @@ const Calls = () => {
     try {
       // Call your backend API to update the call status
       const response = await fetch(
-        `https://ibix-lms-server.onrender.com/ibix-api/calls/update/${studentId}`,
+        `${process.env.REACT_APP_BASE_URL}/calls/update/${studentId}`,
         {
           method: "PUT",
           headers: {
@@ -501,6 +499,18 @@ const Calls = () => {
   return (
     <div className="calls-container">
       <h1>Calls Management</h1>
+
+      <div className="warning-container">
+        <ExclamationCircleOutlined className="warning-icon" />
+        <div className="warning-text">
+          <h3>Confidentiality Notice</h3>
+          <p>
+            Unauthorized disclosure or sharing of company call data or personal
+            information is strictly prohibited and may result in disciplinary
+            action or legal consequences.
+          </p>
+        </div>
+      </div>
 
       {/* Statistics */}
       <Row gutter={16} className="stats-row">

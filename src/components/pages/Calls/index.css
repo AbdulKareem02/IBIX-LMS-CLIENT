@@ -63,3 +63,36 @@
 .detail-item p {
   margin-bottom: 8px;
 }
+
+.warning-container {
+  display: flex;
+  align-items: center;
+  background: #fff4e6;
+  border-left: 5px solid #fa8c16;
+  padding: 16px 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  max-width: 800px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.warning-icon {
+  font-size: 28px;
+  color: #fa8c16;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.warning-text h3 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+  color: #d46b08;
+  font-weight: 600;
+}
+
+.warning-text p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #444;
+}

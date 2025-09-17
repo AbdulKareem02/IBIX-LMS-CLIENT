@@ -2,8 +2,10 @@ import React, { useContext, useState } from "react";
 
 import "./index.css";
 import { AppContext } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const { setUserLogin, setEmployeeMailId, setEmployeeName, setEmployeeRole } =
     useContext(AppContext);
   const [formData, setFormData] = useState({
@@ -58,7 +60,7 @@ const LoginForm = () => {
     // Simulate API call
     try {
       const res = await fetch(
-        "https://ibix-lms-server.onrender.com/ibix-api/employees/login",
+        `${process.env.REACT_APP_BASE_URL}/employees/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -73,11 +75,11 @@ const LoginForm = () => {
 
       if (data.message === "Login successful" && data.token !== "") {
         setUserLogin(true);
-        setEmployeeMailId(data.email);
+        setEmployeeMailId(data.mail);
         setEmployeeName(data.name);
         setEmployeeRole(data.designation);
         setLoginStatus("");
-        window.location.replace("/");
+        navigate("/", { replace: true });
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -91,10 +93,11 @@ const LoginForm = () => {
     <div className=" container-fluid overflow-hidden">
       <div className="row align-items-center">
         <div className="col-12 col-lg-6 ">
-          <div className="bg-white p-5 logo-cont">
+          <div className="bg-white p-5 logo-cont d-none d-lg-block">
             <img
               src="https://iqteche.in/static/media/wl_client_images/5267335d68274f459cc598d0433650dc.png"
               alt=""
+              className="login-page-image "
             />
             <p className="login-tagline">Learn Today, Lead Tomorrow</p>
           </div>
@@ -102,7 +105,15 @@ const LoginForm = () => {
 
         <div className="col-12 col-lg-6">
           <div className="login-form-cont d-flex align-items-center justify-content-center">
-            <div className="login-card bg-light shadow ">
+            <div className="login-card shadow ">
+              <div className="p-5 logo-cont d-lg-none">
+                <img
+                  src="https://iqteche.in/static/media/wl_client_images/5267335d68274f459cc598d0433650dc.png"
+                  alt=""
+                  className="w-100"
+                />
+                <p className="login-tagline">Learn Today, Lead Tomorrow</p>
+              </div>
               <div class="login-header">
                 <h2>Welcome Back</h2>
                 <p>Sign in to continue your journey</p>

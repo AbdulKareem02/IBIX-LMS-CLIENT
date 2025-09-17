@@ -2,18 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import "./index.css";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
-import ClockInOut from "../ClockInOut";
-
-// async function login() {
-//   const res = await fetch("http://localhost:5000/api/employees/login", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ email: "hr@example.com", password: "hr123" }),
-//   });
-
-//   const data = await res.json();
-//   console.log(data);
-// }
 
 const cardData = [
   {
@@ -47,7 +35,7 @@ const cardData = [
 ];
 
 const Dashboard = () => {
-  const { employeeName } = useContext(AppContext);
+  const { employeeName, employeeRole, setActiveTab } = useContext(AppContext);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isVisible, setIsVisible] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -59,6 +47,12 @@ const Dashboard = () => {
     if (hour >= 12 && hour < 17) return "Good Afternoon";
     if (hour >= 17 && hour < 21) return "Good Evening";
     return "Good Night";
+  };
+
+  const handleCard = (id) => {
+    if (id === 3) {
+      setActiveTab("calls");
+    }
   };
 
   // ✅ Live Date & Time Component
@@ -101,7 +95,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard d-flex flex-column align-items-center gap-3">
-      {/* <ClockInOut /> */}
       {/* Logout Button */}
       <div className="ms-auto">
         <button
@@ -116,6 +109,7 @@ const Dashboard = () => {
       <h1 className="dashboard-title">
         {getGreeting()} <span>{employeeName}</span>! Welcome to IBIX
       </h1>
+      <p>{employeeRole}</p>
 
       {/* Time Display */}
       {LiveDateTime()}
@@ -125,18 +119,25 @@ const Dashboard = () => {
       </p>
 
       {/* Cards */}
-      <div className="cards-container">
-        {cardData.map((card) => (
-          <Link key={card.id} to={card.link} className="card-link">
-            <div
-              className="dashboard-card"
-              style={{ background: card.gradient }}
-            >
-              <div className="card-icon">{card.icon}</div>
-              <h3 className="card-title">{card.title}</h3>
+      <div className="container d-flex justify-content-center">
+        <div className="cards-container row">
+          {cardData.map((card) => (
+            <div className="col-6 col-md-4 col-lg-3">
+              <Link key={card.id} to={card.link} className="card-link ">
+                <div
+                  className="dashboard-card mb-4"
+                  style={{ background: card.gradient }}
+                  onClick={() => {
+                    handleCard(card.id);
+                  }}
+                >
+                  <div className="card-icon">{card.icon}</div>
+                  <h3 className="card-title">{card.title}</h3>
+                </div>
+              </Link>
             </div>
-          </Link>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* ✅ Custom Modal */}

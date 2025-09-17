@@ -5,8 +5,11 @@ export const AppContext = createContext();
 const ContextProvider = ({ children }) => {
   const [isUserLogin, setUserLogin] = useState(true);
   const [employeeMailId, setEmployeeMailId] = useState("");
-  const [employeeName, setEmployeeName] = useState("IBIX Employee");
-  const [employeeRole, setEmployeeRole] = useState("IBIX Employee");
+  const [employeeName, setEmployeeName] = useState("");
+  const [employeeRole, setEmployeeRole] = useState("");
+  const [activeTab, setActiveTab] = useState(
+    localStorage.getItem("activeTab") || "home"
+  );
 
   // Check login status once when app starts
   useEffect(() => {
@@ -14,9 +17,6 @@ const ContextProvider = ({ children }) => {
     if (getData === null) {
       setUserLogin(false);
     } else {
-      setUserLogin(true);
-      const empData = JSON.parse(localStorage.getItem("employee"));
-      setEmployeeMailId(empData.id);
       setUserLogin(true);
     }
   }, []); // ✅ no dependencies
@@ -44,6 +44,8 @@ const ContextProvider = ({ children }) => {
         setEmployeeName,
         employeeRole,
         setEmployeeRole,
+        activeTab,
+        setActiveTab,
       }}
     >
       {children}

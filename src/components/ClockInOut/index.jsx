@@ -1,178 +1,143 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
+import { AppContext } from "../../context/AppContext";
 
 const ClockInOut = () => {
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [isClockedIn, setIsClockedIn] = useState(false);
   const [clockInTime, setClockInTime] = useState(null);
-  const [totalHours, setTotalHours] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState(""); // 'clockin' or 'clockout'
-  const [notes, setNotes] = useState("");
+  const [clockOutTime, setClockOutTime] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [activity, setActivity] = useState("Working on tasks");
+  const { employeeMailId, employeeName } = useContext(AppContext);
 
-  // Sample activities - in a real app, these might come from the backend
-  const activities = [
-    "Working on tasks",
-    "Meeting",
-    "Break",
-    "Training",
-    "Client call",
-    "Project planning",
-  ];
-
+  // check localStorage to persist clock in/out state
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    // Check if user is already clocked in (from localStorage or API)
-    const savedStatus = localStorage.getItem("clockStatus");
-    if (savedStatus) {
-      const status = JSON.parse(savedStatus);
-      setIsClockedIn(status.isClockedIn);
-      setClockInTime(new Date(status.clockInTime));
-
-      if (status.isClockedIn) {
-        const hoursWorked =
-          (new Date() - new Date(status.clockInTime)) / (1000 * 60 * 60);
-        setTotalHours(hoursWorked);
-      }
-    }
-
-    return () => clearInterval(timer);
+    const savedIn = localStorage.getItem("clockInTime");
+    const savedOut = localStorage.getItem("clockOutTime");
+    if (savedIn) setClockInTime(new Date(savedIn));
+    if (savedOut) setClockOutTime(new Date(savedOut));
   }, []);
 
-  const handleClockIn = () => {
-    setModalType("clockin");
-    setShowModal(true);
-  };
+  const handleClockIn = async () => {
+    if (clockInTime) {
+      toast.warning("You already clocked in today ⏰");
+      return;
+    }
 
-  const handleClockOut = () => {
-    setModalType("clockout");
-    setShowModal(true);
-  };
+    const now = new Date();
+    setClockInTime(now);
+    localStorage.setItem("clockInTime", now);
 
-  const confirmAction = async () => {
     setLoading(true);
-
     try {
-      if (modalType === "clockin") {
-        // Simulate API call to backend
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/attendance/clock-in`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: employeeName,
+            mail: employeeMailId,
+            clockIn: now,
+          }),
+        }
+      );
 
-        const now = new Date();
-        setIsClockedIn(true);
-        setClockInTime(now);
-        setTotalHours(0);
-
-        // Save to localStorage
-        localStorage.setItem(
-          "clockStatus",
-          JSON.stringify({
-            isClockedIn: true,
-            clockInTime: now.toISOString(),
-          })
-        );
-
-        // In a real app, you would send data to your backend
-        console.log("Clock In data:", {
-          time: now.toISOString(),
-          activity,
-          notes,
-        });
-      } else if (modalType === "clockout") {
-        // Simulate API call to backend
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        const now = new Date();
-        const hoursWorked = (now - clockInTime) / (1000 * 60 * 60);
-
-        setIsClockedIn(false);
-        setClockInTime(null);
-        setTotalHours(hoursWorked);
-
-        // Remove from localStorage
-        localStorage.removeItem("clockStatus");
-
-        // In a real app, you would send data to your backend
-        console.log("Clock Out data:", {
-          time: now.toISOString(),
-          notes,
-        });
+      if (res.ok) {
+        toast.success("Clock-in successful ✅");
+      } else {
+        toast.error("Failed to clock in ❌");
       }
-
-      // Reset form
-      setNotes("");
-      setActivity("Working on tasks");
-      setShowModal(false);
-    } catch (error) {
-      console.error("Error saving clock data:", error);
+    } catch (err) {
+      toast.error("Something went wrong while clocking in ❌");
     } finally {
       setLoading(false);
     }
   };
 
-  const formatTime = (date) => {
-    return date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    });
-  };
+  const handleClockOut = async () => {
+    if (!clockInTime) {
+      toast.warning("You must clock in first ⚠️");
+      return;
+    }
+    if (clockOutTime) {
+      toast.warning("You already clocked out today 🚪");
+      return;
+    }
 
-  const formatDuration = (hours) => {
-    const h = Math.floor(hours);
-    const m = Math.floor((hours - h) * 60);
-    return `${h}h ${m}m`;
+    const now = new Date();
+    setClockOutTime(now);
+    localStorage.setItem("clockOutTime", now);
+
+    const totalHours = (
+      (now - new Date(clockInTime)) /
+      (1000 * 60 * 60)
+    ).toFixed(2);
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/attendance/clock-out`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: employeeName,
+            mail: employeeMailId,
+            clockIn: clockInTime,
+            clockOut: now,
+            date: new Date().toISOString().split("T")[0], // YYYY-MM-DD
+            totalHours,
+          }),
+        }
+      );
+
+      if (res.ok) {
+        toast.success(`Clock-out successful ✅ (Worked ${totalHours} hrs)`);
+      } else {
+        toast.error("Failed to clock out ❌");
+      }
+    } catch (err) {
+      toast.error("Something went wrong while clocking out ❌");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="time-tracker">
-      <div className="tracker-status">
-        <div className="status-indicator">
-          <div
-            className={`status-circle ${
-              isClockedIn ? "clocked-in" : "clocked-out"
-            }`}
-          >
-            <span>{isClockedIn ? "IN" : "OUT"}</span>
-          </div>
-          <div className="status-text">
-            {isClockedIn
-              ? "You are currently clocked in"
-              : "You are currently clocked out"}
-          </div>
-        </div>
+    <div className="attendance-container">
+      {/* Show only Clock In if not done yet */}
+      {!clockInTime && (
+        <button
+          onClick={handleClockIn}
+          disabled={loading}
+          className={`clock-btn clock-in ${loading ? "disabled" : ""}`}
+        >
+          Clock In
+        </button>
+      )}
 
-        {isClockedIn && clockInTime && (
-          <div className="clock-details">
-            <div className="detail-item">
-              <span className="label">Clocked in at:</span>
-              <span className="value">{formatTime(clockInTime)}</span>
-            </div>
-            <div className="detail-item">
-              <span className="label">Time elapsed:</span>
-              <span className="value">{formatDuration(totalHours)}</span>
-            </div>
-          </div>
-        )}
-      </div>
+      {/* Show only Clock Out after clock in */}
+      {clockInTime && !clockOutTime && (
+        <button
+          onClick={handleClockOut}
+          disabled={loading}
+          className={`clock-btn clock-out ${loading ? "disabled" : ""}`}
+        >
+          Clock Out
+        </button>
+      )}
 
-      <div className="action-buttons">
-        {!isClockedIn ? (
-          <button className="clock-in-btn" onClick={handleClockIn}>
-            <span className="icon">⏰</span>
-            Clock In
-          </button>
-        ) : (
-          <button className="clock-out-btn" onClick={handleClockOut}>
-            <span className="icon">⏱️</span>
-            Clock Out
-          </button>
-        )}
-      </div>
+      {/* Show status if both done */}
+      {clockInTime && clockOutTime && (
+        <p className="status-msg">
+          ✅ You clocked in at {new Date(clockInTime).toLocaleTimeString()} and
+          clocked out at {new Date(clockOutTime).toLocaleTimeString()}
+        </p>
+      )}
+
+      {/* Toast Container */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
