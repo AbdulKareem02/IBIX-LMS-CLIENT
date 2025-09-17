@@ -17,7 +17,11 @@ const ContextProvider = ({ children }) => {
     if (getData === null) {
       setUserLogin(false);
     } else {
+      const parseData = JSON.parse(getData);
       setUserLogin(true);
+      setEmployeeMailId(parseData.id);
+      setEmployeeName(parseData.name);
+      setEmployeeRole(parseData.role);
     }
   }, []); // ✅ no dependencies
 
@@ -26,12 +30,14 @@ const ContextProvider = ({ children }) => {
     const empData = {
       id: employeeMailId,
       status: isUserLogin,
+      name: employeeName,
+      role: employeeRole,
     };
 
     if (isUserLogin) {
       localStorage.setItem("employee", JSON.stringify(empData));
     }
-  }, [isUserLogin, employeeMailId]);
+  }, [isUserLogin, employeeMailId, employeeName, employeeRole]);
 
   return (
     <AppContext.Provider
