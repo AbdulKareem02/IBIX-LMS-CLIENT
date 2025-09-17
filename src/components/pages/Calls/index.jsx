@@ -24,6 +24,7 @@ import {
 } from "@ant-design/icons";
 import Remarks from "../Remarks";
 import { AppContext } from "../../../context/AppContext";
+import "./index.css";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
