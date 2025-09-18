@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import "./index.css";
 import { AppContext } from "../../context/AppContext";
@@ -15,6 +15,10 @@ const LoginForm = () => {
   const [loginStatus, setLoginStatus] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -114,7 +118,7 @@ const LoginForm = () => {
                 />
                 <p className="login-tagline">Learn Today, Lead Tomorrow</p>
               </div>
-              <div class="login-header">
+              <div className="login-header">
                 <h2>Welcome Back</h2>
                 <p>Sign in to continue your journey</p>
               </div>

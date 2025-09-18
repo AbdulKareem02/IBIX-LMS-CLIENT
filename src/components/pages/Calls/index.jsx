@@ -210,9 +210,7 @@ const Calls = () => {
     (i) => i.status === "not-interested"
   ).length;
   const otherCalls = data.filter((i) => i.status === "others").length;
-  const priorityCalls = data.filter(
-    (i) => i.status === "priority-calls"
-  ).length;
+  const priorityCalls = data.filter((i) => i.status === "priority-call").length;
   const willingToJoin = data.filter(
     (i) => i.status === "willing-to-join"
   ).length;
@@ -320,7 +318,7 @@ const Calls = () => {
             icon = <PhoneOutlined />;
             text = "WILLING TO JOIN";
             break;
-          case "priority-calls":
+          case "priority-call":
             color = "gold";
             icon = <PhoneOutlined />;
             text = "Priority Calls";
@@ -376,7 +374,7 @@ const Calls = () => {
             <Option value="interested">Interested</Option>
             <Option value="not-interested">Not Interested</Option>
             <Option value="willing-to-join">Willing to join</Option>
-            <Option value="priority-calls">Priority Calls</Option>
+            <Option value="priority-call">Priority Calls</Option>
             <Option value="others">Others</Option>
           </Select>
 
@@ -452,7 +450,7 @@ const Calls = () => {
                   ? "red"
                   : student.status === "willing-to-join"
                   ? "pink"
-                  : student.status === "priority-calls"
+                  : student.status === "priority-call"
                   ? "gold"
                   : student.status === "no-answer"
                   ? "orange"
@@ -475,7 +473,7 @@ const Calls = () => {
                 ? "Not Interested"
                 : student.status === "willing-to-join"
                 ? "Willing To Join"
-                : student.status === "priority-calls "
+                : student.status === "priority-call "
                 ? "Priority Calls "
                 : student.status === "no-answer"
                 ? "No Answer"
@@ -680,12 +678,12 @@ const Calls = () => {
 
           <TabPane
             tab={`Priority Calls (${priorityCalls})`}
-            key="priority-calls"
+            key="priority-call"
           >
             <Table
               columns={columns}
               dataSource={filteredData.filter(
-                (item) => item.status === "priority-calls"
+                (item) => item.status === "priority-call"
               )}
               pagination={{ pageSize }}
               scroll={{ x: 1000 }}

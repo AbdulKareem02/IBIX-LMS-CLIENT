@@ -1,11 +1,8 @@
-import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
 
 const ProtectedRoute = () => {
-  const { isUserLogin, employeeMailId } = useContext(AppContext);
-
-  if (employeeMailId === "" && !isUserLogin) {
+  const getData = JSON.parse(localStorage.getItem("employee"));
+  if (getData === null) {
     return <Navigate to="/login" replace />;
   }
 
