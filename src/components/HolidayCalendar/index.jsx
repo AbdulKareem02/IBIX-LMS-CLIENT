@@ -4,10 +4,15 @@ import "./index.css";
 const HolidayCalendar = () => {
   // Sample holiday data - in a real app, this would come from an API
   const holidays = [
-    { id: 6, date: "2024-08-15", name: "Independence Day", type: "public" },
-    { id: 7, date: "2024-10-02", name: "Gandhi Jayanti", type: "public" },
-    { id: 7, date: "2024-10-20", name: "Deepavali", type: "regional" },
-    { id: 8, date: "2024-12-25", name: "Christmas Day", type: "regional" },
+    { id: 5, date: "2025-08-15", name: "Independence Day", type: "public" },
+    {
+      id: 6,
+      date: "2025-10-02",
+      name: "Gandhi Jayanti & Vijayadasami",
+      type: "public",
+    },
+    { id: 7, date: "2025-10-20", name: "Deepavali", type: "regional" },
+    { id: 8, date: "2025-12-25", name: "Christmas Day", type: "regional" },
   ];
 
   const [selectedYear, setSelectedYear] = useState(2024);
