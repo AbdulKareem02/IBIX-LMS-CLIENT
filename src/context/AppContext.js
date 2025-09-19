@@ -7,6 +7,7 @@ const ContextProvider = ({ children }) => {
   const [employeeMailId, setEmployeeMailId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
   const [employeeRole, setEmployeeRole] = useState("");
+  const [students, setStudents] = useState([]);
   const [activeTab, setActiveTab] = useState(
     localStorage.getItem("activeTab") || "home"
   );
@@ -39,6 +40,29 @@ const ContextProvider = ({ children }) => {
     }
   }, [isUserLogin, employeeMailId, employeeName, employeeRole]);
 
+  useEffect(() => {
+    if (isUserLogin) {
+      fetch(`${process.env.REACT_APP_BASE_URL}/get-students`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ employee: employeeMailId }),
+      })
+        .then((response) => response.json())
+        .then((resp) => {
+          // ensure each item has a unique key property for antd Table
+          const normalized = (resp.data || []).map((item, idx) => ({
+            key: item.studentId || item.id || idx,
+            ...item,
+          }));
+          setStudents(normalized);
+        })
+        .catch((err) => {
+          console.error("Fetch error:", err);
+        });
+    }
+    // include employeeMailId in deps so it re-fetches when it changes
+  }, [employeeMailId, isUserLogin]);
+
   return (
     <AppContext.Provider
       value={{
@@ -52,6 +76,8 @@ const ContextProvider = ({ children }) => {
         setEmployeeRole,
         activeTab,
         setActiveTab,
+        students,
+        setStudents,
       }}
     >
       {children}

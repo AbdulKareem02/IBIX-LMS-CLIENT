@@ -1,0 +1,99 @@
+/* AdminPanel.css */
+.admin-panel {
+  min-height: 100vh;
+  background-color: #f5f7fb;
+}
+
+.admin-header {
+  background-color: #fff;
+  padding: 0 10px;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+.header-title {
+  margin: 0 !important;
+  color: #1890ff;
+}
+
+.user-info {
+  padding: 8px 0;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+
+.admin-tabs {
+  padding: 4px;
+}
+
+.tab-content {
+  background: transparent;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.select-employee {
+  width: 300px;
+  border-radius: 8px;
+  padding: 4px;
+  font-size: 18px;
+  border: 1px solid #1890ff;
+  outline: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-tabs {
+    padding: 16px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    height: auto;
+    padding: 16px 0;
+  }
+
+  .user-info {
+    margin-top: 16px;
+  }
+
+  .ant-tabs-top > .ant-tabs-nav {
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-header {
+    padding: 0 16px;
+  }
+
+  .admin-tabs {
+    padding: 8px;
+  }
+
+  .ant-tabs-tab {
+    margin: 0 8px !important;
+  }
+}

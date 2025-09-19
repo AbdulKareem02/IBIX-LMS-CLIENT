@@ -5,6 +5,7 @@ import {
   PhoneOutlined,
   CalendarOutlined,
   SettingOutlined,
+  CrownOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
 import "./index.css";
@@ -14,13 +15,14 @@ import HRDashboard from "../pages/HR";
 import HolidayCalendar from "../HolidayCalendar";
 import { AppContext } from "../../context/AppContext";
 import Profile from "../EmployeeProfile";
+import AdminPanel from "../AdminPannel";
 
 const { Sider, Content } = Layout;
 
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const { activeTab, setActiveTab } = useContext(AppContext);
+  const { activeTab, setActiveTab, employeeMailId } = useContext(AppContext);
 
   // ✅ Load active tab from localStorage (default: "home")
 
@@ -49,10 +51,27 @@ const Home = () => {
         return <HolidayCalendar />;
       case "profile":
         return <Profile />;
+      case "admin":
+        if (
+          [
+            process.env.REACT_APP_ADMIN_1,
+            process.env.REACT_APP_ADMIN_2,
+          ].includes(employeeMailId)
+        ) {
+          return <AdminPanel />;
+        } else {
+          return <h2>Access Denied</h2>;
+        }
       default:
         return <h2>Welcome</h2>;
     }
   };
+
+  console.log(
+    "dash board home mail admin",
+    process.env.REACT_APP_ADMIN_1,
+    employeeMailId
+  );
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -89,6 +108,11 @@ const Home = () => {
                 key: "profile",
                 icon: <SettingOutlined />,
                 label: "My Profile",
+              },
+              {
+                key: "admin",
+                icon: <CrownOutlined />,
+                label: "Admin",
               },
             ]}
           />
@@ -147,6 +171,19 @@ const Home = () => {
             <SettingOutlined />
             <span>My Profile</span>
           </div>
+
+          {[
+            process.env.REACT_APP_ADMIN_1,
+            process.env.REACT_APP_ADMIN_2,
+          ].includes(employeeMailId) && (
+            <div
+              className={`nav-item ${activeTab === "admin" ? "active" : ""}`}
+              onClick={() => setActiveTab("admin")}
+            >
+              <CrownOutlined />
+              <span>Admin</span>
+            </div>
+          )}
         </div>
       )}
     </Layout>

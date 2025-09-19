@@ -29,15 +29,11 @@ import "./index.css";
 const { TabPane } = Tabs;
 const { Option } = Select;
 
-const mockRemarksData = [
-  // ... same as before
-];
-
 const Calls = () => {
-  const { employeeMailId } = useContext(AppContext);
+  const { employeeMailId, students } = useContext(AppContext);
   const [pageSize, setPageSize] = useState(10);
   const [activeTab, setActiveTab] = useState("all");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(students);
   const [remarksData, setRemarksData] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [detailsModalVisible, setDetailsModalVisible] = useState(false);
@@ -497,7 +493,7 @@ const Calls = () => {
 
   return (
     <div className="calls-container">
-      <h1>Calls Management</h1>
+      <h1>Task Flow</h1>
 
       <div className="warning-container">
         <ExclamationCircleOutlined className="warning-icon" />
