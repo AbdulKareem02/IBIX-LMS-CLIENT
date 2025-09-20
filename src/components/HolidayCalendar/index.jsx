@@ -15,7 +15,7 @@ const HolidayCalendar = () => {
     { id: 8, date: "2025-12-25", name: "Christmas Day", type: "regional" },
   ];
 
-  const [selectedYear, setSelectedYear] = useState(2024);
+  const [selectedYear, setSelectedYear] = useState(2025);
   const [filter, setFilter] = useState("all"); // 'all', 'public', 'regional'
 
   // Filter holidays based on selection

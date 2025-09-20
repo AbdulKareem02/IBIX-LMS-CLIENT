@@ -1,8 +1,8 @@
 .profile-container {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
   padding: 0 16px;
+  background-color: #c8d6e4;
 }
 
 .profile-card {

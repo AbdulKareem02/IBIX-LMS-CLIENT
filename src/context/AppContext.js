@@ -7,6 +7,7 @@ const ContextProvider = ({ children }) => {
   const [employeeMailId, setEmployeeMailId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
   const [employeeRole, setEmployeeRole] = useState("");
+  const [empIdStatus, setEmpIdStatus] = useState("");
   const [students, setStudents] = useState([]);
   const [activeTab, setActiveTab] = useState(
     localStorage.getItem("activeTab") || "home"
@@ -21,6 +22,7 @@ const ContextProvider = ({ children }) => {
       const parseData = JSON.parse(getData);
       setUserLogin(true);
       setEmployeeMailId(parseData.id);
+      setEmpIdStatus(parseData.id);
       setEmployeeName(parseData.name);
       setEmployeeRole(parseData.role);
     }
@@ -78,6 +80,8 @@ const ContextProvider = ({ children }) => {
         setActiveTab,
         students,
         setStudents,
+        empIdStatus,
+        setEmpIdStatus,
       }}
     >
       {children}

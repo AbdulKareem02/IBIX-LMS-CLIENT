@@ -34,7 +34,7 @@ const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
 const AdminPanel = () => {
-  const { employeeMailId, employeeName, employeeRole, setEmployeeMailId } =
+  const { employeeMailId, employeeName, employeeRole, setEmpIdStatus } =
     useContext(AppContext);
   const [selectEmp, setSelectEmp] = useState("");
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -86,10 +86,10 @@ const AdminPanel = () => {
 
   const handleEmpFilter = (e) => {
     if (e.target.value !== "") {
-      setEmployeeMailId(e.target.value);
+      setEmpIdStatus(e.target.value);
       setSelectEmp(e.target.value);
     } else {
-      setEmployeeMailId(employeeMailId);
+      setEmpIdStatus(employeeMailId);
     }
   };
 

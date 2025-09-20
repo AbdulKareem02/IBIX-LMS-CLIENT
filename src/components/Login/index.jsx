@@ -1,13 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-
+import Cookies from "js-cookie";
 import "./index.css";
 import { AppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { setUserLogin, setEmployeeMailId, setEmployeeName, setEmployeeRole } =
-    useContext(AppContext);
+  const {
+    setUserLogin,
+    setEmployeeMailId,
+    setEmployeeName,
+    setEmployeeRole,
+    setEmpIdStatus,
+  } = useContext(AppContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -78,8 +83,11 @@ const LoginForm = () => {
       const data = await res.json();
 
       if (data.message === "Login successful" && data.token !== "") {
+        Cookies.set("akt", data.token, { expires: 1, path: "/", secure: true });
+
         setUserLogin(true);
         setEmployeeMailId(data.mail);
+        setEmpIdStatus(data.mail);
         setEmployeeName(data.name);
         setEmployeeRole(data.designation);
         setLoginStatus("");

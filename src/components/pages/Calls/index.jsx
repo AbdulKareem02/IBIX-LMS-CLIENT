@@ -13,6 +13,7 @@ import {
   Col,
   Input,
   message,
+  ColorPicker,
 } from "antd";
 import {
   PhoneOutlined,
@@ -24,13 +25,14 @@ import {
 } from "@ant-design/icons";
 import Remarks from "../Remarks";
 import { AppContext } from "../../../context/AppContext";
+import Cookies from "js-cookie";
 import "./index.css";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
 
 const Calls = () => {
-  const { employeeMailId, students } = useContext(AppContext);
+  const { students, empIdStatus } = useContext(AppContext);
   const [pageSize, setPageSize] = useState(10);
   const [activeTab, setActiveTab] = useState("all");
   const [data, setData] = useState(students);
@@ -75,11 +77,18 @@ const Calls = () => {
     // include employeeMailId in deps so it re-fetches when it changes
     fetch(`${process.env.REACT_APP_BASE_URL}/get-students`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ employee: employeeMailId }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${Cookies.get("akt")}`,
+      },
+      body: JSON.stringify({
+        employee: empIdStatus,
+      }),
     })
       .then((response) => response.json())
       .then((resp) => {
+        console.log(data);
         // ensure each item has a unique key property for antd Table
         const normalized = (resp.data || []).map((item, idx) => ({
           key: item.studentId || item.id || idx,
@@ -90,7 +99,7 @@ const Calls = () => {
       .catch((err) => {
         console.error("Fetch error:", err);
       });
-  }, [employeeMailId]);
+  }, [empIdStatus]);
 
   // Show status-change modal (store full record)
   // const showStatusChangeModal = (record, newStatus) => {

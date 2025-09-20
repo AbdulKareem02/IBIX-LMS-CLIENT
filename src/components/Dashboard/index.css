@@ -271,6 +271,10 @@
 .btn-secondary:hover {
   background: #95a5a6;
 }
+.ibra-logo {
+  width: 80px;
+  text-align: start !important;
+}
 
 /* Animation */
 @keyframes fadeIn {

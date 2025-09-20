@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Result } from "antd";
 import {
   UserOutlined,
   PhoneOutlined,
@@ -7,6 +7,7 @@ import {
   SettingOutlined,
   CrownOutlined,
   HomeOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
 import "./index.css";
 import Calls from "../pages/Calls";
@@ -60,18 +61,20 @@ const Home = () => {
         ) {
           return <AdminPanel />;
         } else {
-          return <h2>Access Denied</h2>;
+          return (
+            <Result
+              icon={
+                <LockOutlined style={{ fontSize: "48px", color: "#ff4d4f" }} />
+              }
+              title="Access Denied"
+              subTitle="Only admins can view this page."
+            />
+          );
         }
       default:
         return <h2>Welcome</h2>;
     }
   };
-
-  console.log(
-    "dash board home mail admin",
-    process.env.REACT_APP_ADMIN_1,
-    employeeMailId
-  );
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -90,6 +93,11 @@ const Home = () => {
             bottom: 0,
           }}
         >
+          <img
+            src="https://iqteche.in/static/media/wl_client_images/703d5447d6bd49999575f2794063b574.png"
+            alt="IBRA Logo"
+            className="ibra-logo"
+          />
           <Menu
             theme="dark"
             mode="inline"

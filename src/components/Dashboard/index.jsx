@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./index.css";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
+import Cookies from "js-cookie";
 
 const cardData = [
   {
@@ -89,6 +90,7 @@ const Dashboard = () => {
 
   // ✅ Logout handler
   const confirmLogout = () => {
+    Cookies.remove("akt");
     localStorage.clear();
     window.location.replace("/login"); // replaces history, so back button won't return
   };
