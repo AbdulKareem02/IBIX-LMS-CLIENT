@@ -11,6 +11,8 @@ import {
   isToday,
   isBefore,
   addMonths,
+  parseISO,
+  getDay,
 } from "date-fns";
 import "./AttendanceCalendar.css";
 import { AppContext } from "../../context/AppContext";
@@ -56,10 +58,11 @@ const AttendanceCalendar = () => {
         }
       );
 
-      console.log("clockin res", response.json());
+      const resData = await response.json();
+      console.log("clockin res", resData);
 
       if (response.ok) {
-        fetchAttendanceData(); // Refresh data
+        fetchAttendanceData();
         toast.success("Clocked in successfully!");
       } else if (response.status === 400) {
         toast.warning("Already clocked in today");
@@ -84,10 +87,11 @@ const AttendanceCalendar = () => {
         }
       );
 
-      console.log("clock out:", response.json());
+      const resData = await response.json();
+      console.log("clock out:", resData);
 
       if (response.ok) {
-        fetchAttendanceData(); // Refresh data
+        fetchAttendanceData();
         toast.success("Clocked out successfully!");
       } else if (response.status === 400) {
         toast.warning("Already clocked out today");
@@ -100,15 +104,15 @@ const AttendanceCalendar = () => {
   };
 
   const getDayStatus = (day) => {
-    const attendance = attendanceData.find((a) =>
-      isSameDay(new Date(a.date), day)
+    const attendance = attendanceData.find(
+      (a) => isSameDay(parseISO(a.date), day) // ✅ avoids timezone shifts
     );
 
     if (!attendance) {
       if (isBefore(day, new Date()) && !isToday(day)) {
-        return "absent"; // Past day with no attendance record
+        return "absent";
       }
-      return null; // Future day
+      return null;
     }
 
     return attendance.status;
@@ -133,10 +137,11 @@ const AttendanceCalendar = () => {
     }
   };
 
-  const monthDays = eachDayOfInterval({
-    start: startOfMonth(currentDate),
-    end: endOfMonth(currentDate),
-  });
+  // Calendar logic
+  const monthStart = startOfMonth(currentDate);
+  const monthEnd = endOfMonth(currentDate);
+  const monthDays = eachDayOfInterval({ start: monthStart, end: monthEnd });
+  const startDay = getDay(monthStart); // how many blanks before 1st
 
   const navigateMonth = (direction) => {
     setCurrentDate(addMonths(currentDate, direction));
@@ -166,6 +171,12 @@ const AttendanceCalendar = () => {
           </div>
         ))}
 
+        {/* empty slots before 1st of the month */}
+        {Array.from({ length: startDay }).map((_, index) => (
+          <div key={`empty-${index}`} className="calendar-day empty"></div>
+        ))}
+
+        {/* actual days */}
         {monthDays.map((day) => (
           <div
             key={day.toString()}
