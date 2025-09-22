@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react";
 export const AppContext = createContext();
 
 const ContextProvider = ({ children }) => {
+  const [employee, setEmployee] = useState({});
   const [isUserLogin, setUserLogin] = useState(false);
   const [employeeMailId, setEmployeeMailId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
@@ -27,7 +28,16 @@ const ContextProvider = ({ children }) => {
       setEmployeeRole(parseData.role);
     }
   }, []); // ✅ no dependencies
-
+  useEffect(() => {
+    const getData = localStorage.getItem("employeeData");
+    if (getData === null) {
+      setUserLogin(false);
+    } else {
+      const parseData = JSON.parse(getData);
+      setUserLogin(true);
+      setEmployee(parseData);
+    }
+  }, []); // ✅ no dependencies
   // Store login state when it changes
   useEffect(() => {
     const empData = {
@@ -39,8 +49,9 @@ const ContextProvider = ({ children }) => {
 
     if (isUserLogin) {
       localStorage.setItem("employee", JSON.stringify(empData));
+      localStorage.setItem("employeeData", JSON.stringify(employee));
     }
-  }, [isUserLogin, employeeMailId, employeeName, employeeRole]);
+  }, [isUserLogin, employeeMailId, employeeName, employeeRole, employee]);
 
   useEffect(() => {
     if (isUserLogin) {
@@ -82,6 +93,8 @@ const ContextProvider = ({ children }) => {
         setStudents,
         empIdStatus,
         setEmpIdStatus,
+        employee,
+        setEmployee,
       }}
     >
       {children}

@@ -1,11 +1,11 @@
 /* AttendanceCalendar.css */
 .attendance-calendar {
-  max-width: 40%;
+  max-width: 80%;
   margin: 0 auto;
   font-family: Arial, sans-serif;
   padding: 1rem;
   box-sizing: border-box;
-  background-color: #ffffff;
+  background: linear-gradient(#ccf3ff, #c3d5da);
   border-radius: 15px;
 }
 
@@ -60,9 +60,12 @@
 
 .day-header {
   text-align: center;
+  font-size: 19px;
   font-weight: bold;
   padding: 0.5rem;
-  background-color: #f8f9fa;
+  background-color: #0396e0;
+  color: #fff;
+  border-radius: 7px;
 }
 
 .calendar-day {

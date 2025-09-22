@@ -93,7 +93,7 @@ const ClockInOut = () => {
       );
 
       if (res.ok) {
-        toast.success(`Clock-out successful ✅ (Worked ${totalHours} hrs)`);
+        toast.success(`Clock-out successful ✅`);
       } else {
         toast.error("Failed to clock out ❌");
       }

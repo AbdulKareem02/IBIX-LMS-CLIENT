@@ -53,6 +53,8 @@ const Dashboard = () => {
   const handleCard = (id) => {
     if (id === 3) {
       setActiveTab("calls");
+    } else if (id === 5) {
+      setActiveTab("profile");
     }
   };
 

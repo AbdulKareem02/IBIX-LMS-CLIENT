@@ -18,7 +18,10 @@ import {
   PlusOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
+import Cookies from "js-cookie";
 import moment from "moment";
+import { AppContext } from "../../../context/AppContext";
+import { useContext } from "react";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -33,6 +36,7 @@ const Remarks = ({
   const [remarkText, setRemarkText] = useState("");
   const [remarkType, setRemarkType] = useState("general");
   const [loading, setLoading] = useState(false);
+  const { employee } = useContext(AppContext);
 
   // Filter remarks for the selected student and sort by date (newest first)
   const studentRemarks = remarksData
@@ -58,13 +62,15 @@ const Remarks = ({
         type: remarkType,
         datetime: timestamp,
         date: timestamp,
-        author: "Current User", // In a real app, this would come from auth context
+        author: employee.name, // In a real app, this would come from auth context
       };
 
       const res = await fetch(`${process.env.REACT_APP_BASE_URL}/remarks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${Cookies.get("akt")}`,
         },
         body: JSON.stringify(newRemark),
       });

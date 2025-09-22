@@ -57,6 +57,8 @@ const Calls = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${Cookies.get("akt")}`,
           },
           body: JSON.stringify({ studentId }),
         }
@@ -88,7 +90,6 @@ const Calls = () => {
     })
       .then((response) => response.json())
       .then((resp) => {
-        console.log(data);
         // ensure each item has a unique key property for antd Table
         const normalized = (resp.data || []).map((item, idx) => ({
           key: item.studentId || item.id || idx,
@@ -134,6 +135,8 @@ const Calls = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${Cookies.get("akt")}`,
           },
           body: JSON.stringify({
             status: type,

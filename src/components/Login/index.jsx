@@ -12,6 +12,7 @@ const LoginForm = () => {
     setEmployeeName,
     setEmployeeRole,
     setEmpIdStatus,
+    setEmployee,
   } = useContext(AppContext);
   const [formData, setFormData] = useState({
     email: "",
@@ -86,10 +87,11 @@ const LoginForm = () => {
         Cookies.set("akt", data.token, { expires: 1, path: "/", secure: true });
 
         setUserLogin(true);
-        setEmployeeMailId(data.mail);
-        setEmpIdStatus(data.mail);
-        setEmployeeName(data.name);
-        setEmployeeRole(data.designation);
+        setEmployee(data.employee);
+        setEmployeeMailId(data.employee.email);
+        setEmpIdStatus(data.employee.email);
+        setEmployeeName(data.employee.name);
+        setEmployeeRole(data.employee.designation);
         setLoginStatus("");
         navigate("/", { replace: true });
       }

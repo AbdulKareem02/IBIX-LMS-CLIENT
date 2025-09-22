@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import "./index.css";
+import { formatDate } from "date-fns";
 
 const LeaveRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -97,12 +99,17 @@ const LeaveRequestForm = () => {
       // Form submission logic would go here
 
       try {
-        await fetch("", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-          mode: "no-cors",
-        });
+        await fetch(
+          `${process.env.REACT_APP_BASE_URL}/emp-attendance/apply-leave`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ACCEPT: "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
 
         setFormData({
           employeeName: "",
@@ -117,8 +124,10 @@ const LeaveRequestForm = () => {
         });
 
         setErrors({});
-        alert("Leave request submitted successfully!");
+
+        toast.success("Leave request submitted successfully!");
       } catch (err) {
+        toast.failure("Submission failed", err);
         console.error("❌ Submission failed", err);
       }
 
@@ -331,6 +340,7 @@ const LeaveRequestForm = () => {
           </div>
         </form>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
