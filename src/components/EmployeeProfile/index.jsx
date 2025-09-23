@@ -42,6 +42,8 @@
 
 import React, { useEffect, useState } from "react";
 import { Tabs, Card, Button, List, message } from "antd";
+import { FaRegIdBadge } from "react-icons/fa";
+
 import {
   UserOutlined,
   MailOutlined,
@@ -117,7 +119,7 @@ export default function Profile() {
         >
           <div className="d-lg-flex algin-items-center">
             <Card className="profile-card">
-              <div className="profile-header">
+              <div className="profile-header text-start">
                 <div className="profile-avatar">
                   <UserOutlined
                     style={{ fontSize: "48px", color: "#f5ffffff" }}
@@ -128,6 +130,10 @@ export default function Profile() {
                 <div className="detail-item">
                   <MailOutlined className="detail-icon" />
                   <span>{employeeMailId}</span>
+                </div>
+                <div className="detail-item">
+                  <FaRegIdBadge className="detail-icon" />
+                  <span>{employee.empId}</span>
                 </div>
               </div>
             </Card>

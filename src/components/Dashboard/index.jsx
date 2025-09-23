@@ -113,8 +113,6 @@ const Dashboard = () => {
       <h1 className="dashboard-title">
         {getGreeting()} <span>{employeeName}</span>! Welcome to IBIX
       </h1>
-      <p>{employeeRole}</p>
-
       {/* Time Display */}
       {LiveDateTime()}
 
