@@ -5,6 +5,46 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.tool-name {
+  position: relative;
+  top: 10px;
+  display: inline-block;
+  overflow: hidden;
+  background: linear-gradient(90deg, #34b5a0, #434ab1, #5cf05c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 38px;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-weight: 600;
+}
+
+.tool-name::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shine 2s linear infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}
+
 .dashboard {
   padding: 24px;
   background: #f5f7fa;
@@ -17,7 +57,7 @@
   color: #2c3e50;
   margin-bottom: 10px;
 }
-.dashboard-title span {
+.dashboard-title-span {
   color: rgb(101, 9, 172);
   font-weight: bold;
 }

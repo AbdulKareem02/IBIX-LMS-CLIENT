@@ -273,17 +273,17 @@ const Calls = () => {
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     { title: "Phone Number", dataIndex: "phone", key: "phone" },
-    {
-      title: "Course",
-      dataIndex: "course",
-      key: "course",
-      filters: [
-        { text: "Web Development", value: "Web Development" },
-        { text: "Data Science", value: "Data Science" },
-        { text: "UX Design", value: "UX Design" },
-      ],
-      onFilter: (value, record) => record.course === value,
-    },
+    // {
+    //   title: "Course",
+    //   dataIndex: "course",
+    //   key: "course",
+    //   filters: [
+    //     { text: "Web Development", value: "Web Development" },
+    //     { text: "Data Science", value: "Data Science" },
+    //     { text: "UX Design", value: "UX Design" },
+    //   ],
+    //   onFilter: (value, record) => record.course === value,
+    // },
     {
       title: "Call Status",
       dataIndex: "status",
@@ -349,18 +349,18 @@ const Calls = () => {
         );
       },
     },
-    {
-      title: "Call Attempts",
-      dataIndex: "callAttempts",
-      key: "callAttempts",
-      sorter: (a, b) => a.callAttempts - b.callAttempts,
-    },
-    {
-      title: "Last Call",
-      dataIndex: "lastCall",
-      key: "lastCall",
-      sorter: (a, b) => new Date(a.lastCall) - new Date(b.lastCall),
-    },
+    // {
+    //   title: "Call Attempts",
+    //   dataIndex: "callAttempts",
+    //   key: "callAttempts",
+    //   sorter: (a, b) => a.callAttempts - b.callAttempts,
+    // },
+    // {
+    //   title: "Last Call",
+    //   dataIndex: "lastCall",
+    //   key: "lastCall",
+    //   sorter: (a, b) => new Date(a.lastCall) - new Date(b.lastCall),
+    // },
     {
       title: "Actions",
       key: "actions",

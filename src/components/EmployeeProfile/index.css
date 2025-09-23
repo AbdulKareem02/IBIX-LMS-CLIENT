@@ -102,3 +102,81 @@
   color: #16a085;
   letter-spacing: 2px;
 }
+
+.employee-id-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0f0f0f;
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 200, 0.3);
+  width: fit-content;
+  margin: 20px auto;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* glowing border animation */
+.employee-id-container::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(90deg, #00ffe0, #0077ff, #00ffe0);
+  background-size: 400%;
+  border-radius: 14px;
+  z-index: -1;
+  animation: borderGlow 6s linear infinite;
+}
+
+@keyframes borderGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.label {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  color: #aaa;
+  margin-bottom: 5px;
+}
+
+.employee-id {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #00ffe0;
+  text-shadow: 0 0 8px rgba(0, 255, 200, 0.8), 0 0 16px rgba(0, 255, 200, 0.6);
+  animation: typing 2s steps(20, end), blink 0.75s step-end infinite;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #00ffe0;
+  padding-right: 5px;
+}
+
+/* typewriter animation */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}

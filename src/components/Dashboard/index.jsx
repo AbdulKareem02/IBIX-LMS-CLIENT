@@ -102,26 +102,28 @@ const Dashboard = () => {
       {/* Logout Button */}
       <div className="ms-auto">
         <button
-          className="btn btn-primary"
+          className="btn btn-primary d-md-none"
           onClick={() => setShowLogoutModal(true)}
         >
           Logout
         </button>
       </div>
-
       {/* Greeting */}
       <h1 className="dashboard-title">
-        {getGreeting()} <span>{employeeName}</span>! Welcome to IBIX
+        {getGreeting()}{" "}
+        <span className="dashboard-title-span">{employeeName}</span>!
       </h1>
+
+      <div className="d-flex align-items-center">
+        <h2>
+          Welcome to <span className="tool-name">IBIX IBRA</span>
+        </h2>
+      </div>
       {/* Time Display */}
       {LiveDateTime()}
 
-      <p className="dashboard-subtitle">
-        Access all your workplace tools in one place
-      </p>
-
       {/* Cards */}
-      <div className="container d-flex justify-content-center">
+      <div className="container d-flex justify-content-center mt-5">
         <div className="cards-container row">
           {cardData.map((card) => (
             <div className="col-6 col-md-4 col-lg-3">
@@ -141,7 +143,6 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-
       {/* ✅ Custom Modal */}
       {showLogoutModal && (
         <div className="modal-overlay">

@@ -17,6 +17,7 @@ import HolidayCalendar from "../HolidayCalendar";
 import { AppContext } from "../../context/AppContext";
 import Profile from "../EmployeeProfile";
 import AdminPanel from "../AdminPannel";
+import Cookies from "js-cookie";
 
 const { Sider, Content } = Layout;
 
@@ -24,6 +25,7 @@ const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { activeTab, setActiveTab, employeeMailId } = useContext(AppContext);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   // ✅ Load active tab from localStorage (default: "home")
 
@@ -38,6 +40,13 @@ const Home = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // ✅ Logout handler
+  const confirmLogout = () => {
+    Cookies.remove("akt");
+    localStorage.clear();
+    window.location.replace("/login"); // replaces history, so back button won't return
+  };
 
   // Content for each tab
   const renderContent = () => {
@@ -94,9 +103,9 @@ const Home = () => {
           }}
         >
           <img
-            src="https://iqteche.in/static/media/wl_client_images/703d5447d6bd49999575f2794063b574.png"
+            src="https://iqteche.in/static/media/wl_client_images/d4d87b62f8b248768d5a9514767f8526.png"
             alt="IBRA Logo"
-            className="ibra-logo"
+            className="ibra-logo mt-4 mb-4"
           />
           <Menu
             theme="dark"
@@ -124,6 +133,12 @@ const Home = () => {
               },
             ]}
           />
+          <button
+            className="btn btn-danger mt-5"
+            onClick={() => setShowLogoutModal(true)}
+          >
+            Logout
+          </button>
         </Sider>
       )}
 
@@ -192,6 +207,26 @@ const Home = () => {
               <span>Admin</span>
             </div>
           )}
+        </div>
+      )}
+
+      {showLogoutModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to logout?</p>
+            <div className="modal-actions">
+              <button className="btn btn-danger" onClick={confirmLogout}>
+                Yes, Logout
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowLogoutModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </Layout>

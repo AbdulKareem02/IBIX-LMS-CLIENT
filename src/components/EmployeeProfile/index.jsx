@@ -131,9 +131,13 @@ export default function Profile() {
                   <MailOutlined className="detail-icon" />
                   <span>{employeeMailId}</span>
                 </div>
-                <div className="detail-item">
-                  <FaRegIdBadge className="detail-icon" />
-                  <span>{employee.empId}</span>
+
+                <div className="employee-id-container">
+                  <span className="label">
+                    <FaRegIdBadge className="detail-icon" />
+                    Employee ID: {"  "}
+                  </span>
+                  <span className="employee-id">{employee.empId}</span>
                 </div>
               </div>
             </Card>
@@ -185,7 +189,7 @@ export default function Profile() {
         <TabPane
           tab={
             <span>
-              <ClockCircleOutlined /> Clock In / Clock Out
+              <ClockCircleOutlined /> Clock In-Out
             </span>
           }
           key="2"
