@@ -129,8 +129,8 @@ const LoginForm = () => {
                 <p className="login-tagline">Learn Today, Lead Tomorrow</p>
               </div>
               <div className="login-header">
-                <h2>Welcome Back</h2>
-                <p>Sign in to continue your journey</p>
+                <h2>Welcome to IBIX</h2>
+                <p>Sign into employee portal</p>
               </div>
 
               <form onSubmit={handleSubmit} className="login-form" noValidate>

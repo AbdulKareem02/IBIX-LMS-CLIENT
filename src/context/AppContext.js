@@ -15,19 +15,7 @@ const ContextProvider = ({ children }) => {
   );
 
   // Check login status once when app starts
-  useEffect(() => {
-    const getData = localStorage.getItem("employee");
-    if (getData === null) {
-      setUserLogin(false);
-    } else {
-      const parseData = JSON.parse(getData);
-      setUserLogin(true);
-      setEmployeeMailId(parseData.id);
-      setEmpIdStatus(parseData.id);
-      setEmployeeName(parseData.name);
-      setEmployeeRole(parseData.role);
-    }
-  }, []); // ✅ no dependencies
+
   useEffect(() => {
     const getData = localStorage.getItem("employeeData");
     if (getData === null) {
